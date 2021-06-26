@@ -1,39 +1,58 @@
-import { Box, Button } from "@material-ui/core";
+import { Button, Card } from "@material-ui/core";
 import GameData from "../../products.json";
 
-import Grid from "@material-ui/core/Grid";
+import { ProductContainer, Title, CartProduct, HeaderItem } from "./styles";
 
-export function Products(): JSX.Element {
+import Grid from "@material-ui/core/Grid";
+import { useCart } from "../../hooks/useCart";
+import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+import Badge from "@material-ui/core/Badge";
+
+export function Products() {
+  const { addItem, removeItem } = useCart();
+
   return (
     <>
       {GameData.map((item, index) => {
         return (
-          <>
-            <Grid key={index} item xs={7} md={4} lg={3}>
-              <h2>{item.name}</h2>
-              <img src={`/assets/${item.image}`} alt={item.name} />
-              <h3>{item.id}</h3>
-              <h3>{item.score}</h3>
-              <Box
-                style={{
-                  display: "flex",
-                  textAlign: "center",
-                  justifyContent: "center",
-                  gap: "1rem",
-                }}
-              >
-                <h3>{`R$ ${item.price.toLocaleString("PT")}`}</h3>
-                <Button variant="contained" color="secondary">
-                  <img
-                    width="25rem"
-                    height="25rem"
-                    src="/assets/cart-icon.svg"
-                    alt="carrinho"
-                  />
-                </Button>
-              </Box>
-            </Grid>
-          </>
+          <Grid key={index} item xs={7} md={4} lg={3}>
+            <Card>
+              <HeaderItem>
+                <h3># {item.id}</h3>
+                <Badge badgeContent={item.amount} color="primary">
+                  <ShoppingCartIcon />
+                </Badge>
+              </HeaderItem>
+              <ProductContainer>
+                <img src={`/assets/${item.image}`} alt={item.name} />
+                <Title>{item.name}</Title>
+                <h3>Pontuação: {item.score}</h3>
+                <CartProduct>
+                  <h3>{`R$ ${item.price.toLocaleString("PT")}`}</h3>
+                  <Button
+                    variant="contained"
+                    onClick={() => removeItem(item)}
+                    color="primary"
+                  >
+                    <DeleteSweepIcon />
+                  </Button>
+                  <Button
+                    variant="contained"
+                    onClick={() => addItem(item)}
+                    color="secondary"
+                  >
+                    <img
+                      width="25rem"
+                      height="25rem"
+                      src="/assets/cart-icon.svg"
+                      alt="carrinho"
+                    />
+                  </Button>
+                </CartProduct>
+              </ProductContainer>
+            </Card>
+          </Grid>
         );
       })}
     </>
