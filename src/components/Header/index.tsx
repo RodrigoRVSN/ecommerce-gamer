@@ -11,7 +11,6 @@ export function Header(): JSX.Element {
         <Container>
           <HeaderContent>
             E-GAMER
-            
             <CartCheckout />
           </HeaderContent>
         </Container>

@@ -1,5 +1,6 @@
 import { Button, Drawer } from "@material-ui/core";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 import { useCart } from "../../hooks/useCart";
 
 import { CartContainer, ButtonContainer } from "./styles";
@@ -11,7 +12,7 @@ export function CartCheckout(): JSX.Element {
 
   useEffect(() => {
     setTotalPrice(Number(price) + Number(shipping));
-  }, [price, shipping]);
+  }, [price, shipping, totalPrice]);
 
   return (
     <>
@@ -22,7 +23,7 @@ export function CartCheckout(): JSX.Element {
         <CartContainer>
           <h2>
             {price > 0
-              ? `Valor dos protudos: R$ ${price.toLocaleString("pt")}`
+              ? `Valor dos produtos: R$ ${price.toLocaleString("pt")}`
               : "Não há produtos no carrinho 😞"}
           </h2>
           <h2>
@@ -43,7 +44,10 @@ export function CartCheckout(): JSX.Element {
             <Button
               color="secondary"
               variant="contained"
-              onClick={() => setCartOpen(false)}
+              onClick={() => {
+                setCartOpen(false);
+                toast.success("✔️ Compra finalizada!");
+              }}
             >
               COMPRAR
             </Button>

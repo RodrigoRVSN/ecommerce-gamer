@@ -8,13 +8,18 @@ import { useCart } from "../../hooks/useCart";
 import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from "@material-ui/core/Badge";
+import { useEffect } from "react";
 
 export function Products() {
-  const { addItem, removeItem } = useCart();
+  const { addItem, removeItem, allItems, setAllItems } = useCart();
+
+  useEffect(() => {
+    setAllItems(GameData);
+  }, []);
 
   return (
     <>
-      {GameData.map((item, index) => {
+      {allItems.map((item, index) => {
         return (
           <Grid key={index} item xs={7} md={4} lg={3}>
             <Card>
@@ -31,6 +36,7 @@ export function Products() {
                 <CartProduct>
                   <h3>{`R$ ${item.price.toLocaleString("PT")}`}</h3>
                   <Button
+                    disabled={item.amount < 1}
                     variant="contained"
                     onClick={() => removeItem(item)}
                     color="primary"

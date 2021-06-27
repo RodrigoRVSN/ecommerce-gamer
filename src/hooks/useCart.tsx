@@ -1,25 +1,8 @@
 import { useEffect } from "react";
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useContext,
-  useState,
-} from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { CartItemType } from "../@types/CartItemType";
+import { UseCartProps } from "../@types/UseCartProps";
 import GameData from "../products.json";
-
-export type UseCartProps = {
-  cartOpen: boolean;
-  setCartOpen: Dispatch<SetStateAction<boolean>>;
-  items: {};
-  addItem: (...props: any) => void;
-  removeItem: (...props: any) => void;
-  itemSelected: string[];
-  shipping: Number;
-  price: Number;
-  setPrice: Dispatch<SetStateAction<number>>;
-};
 
 export const CartContext = createContext({} as UseCartProps);
 
@@ -29,10 +12,69 @@ interface CartProviderProps {
 
 export function CartContextProvider({ children }: CartProviderProps) {
   const items = GameData;
+
   const [cartOpen, setCartOpen] = useState<boolean>(false);
-  const [itemSelected, setItemSelected] = useState([""]);
+  const [itemSelected, setItemSelected] = useState<CartItemType[]>([]);
   const [price, setPrice] = useState(0);
   const [shipping, setShipping] = useState(0);
+  const [allItems, setAllItems] = useState<CartItemType[]>([]);
+
+  function NameToA() {
+    const newItems = [...GameData].sort(function (a, b) {
+      if (a.name < b.name) {
+        return 1;
+      } else {
+        return -1;
+      }
+    });
+    setAllItems(newItems);
+  }
+
+  function NameToZ() {
+    const newItems = [...GameData].sort(function (a, b) {
+      if (a.name < b.name) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    setAllItems(newItems);
+  }
+
+  /*
+  items.sort(function (a, b) {
+    if (a.price < b.price) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+
+  items.sort(function (a, b) {
+    if (a.price < b.price) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+  
+  items.sort(function (a, b) {
+    if (a.score < b.score) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
+
+  items.sort(function (a, b) {
+    if (a.score < b.score) {
+      return 1;
+    } else {
+      return -1;
+    }
+  });
+  
+  */
 
   function addItem(productClicked: any) {
     items.map((item, index) => {
@@ -44,33 +86,39 @@ export function CartContextProvider({ children }: CartProviderProps) {
 
     itemSelected.push(productClicked);
     itemSelected.forEach(function (primeiro: any, id: any) {
-      setPrice(price + parseFloat(primeiro?.price));
+      setPrice(Number(price) + Number(primeiro?.price));
     });
     setShipping(shipping + 10);
   }
 
   function removeItem(productClicked: any) {
+    itemSelected.forEach(function (primeiro: any, id: any) {
+      setPrice(Number(price) - parseFloat(primeiro?.price));
+    });
+    setShipping(shipping - 10);
+
     let index = itemSelected.indexOf(productClicked);
     itemSelected.splice(index, 1);
 
-    items.map((item, index) => {
+    items.map((item) => {
       if (item === productClicked) {
         item.amount -= 1;
         return item;
       }
     });
-
-    itemSelected.forEach(function (primeiro: any, id: any) {
-      setPrice(price - parseFloat(primeiro?.price));
-    });
-    setShipping(shipping - 10);
   }
 
   useEffect(() => {
     if (price > 250) {
       setShipping(0);
     }
-  }, [price]);
+    if (shipping < 0) {
+      setShipping(0);
+    }
+    if (price < 0) {
+      setPrice(0);
+    }
+  }, [shipping, price]);
 
   return (
     <CartContext.Provider
@@ -84,6 +132,10 @@ export function CartContextProvider({ children }: CartProviderProps) {
         shipping,
         price,
         setPrice,
+        NameToA,
+        NameToZ,
+        allItems,
+        setAllItems,
       }}
     >
       {children}
