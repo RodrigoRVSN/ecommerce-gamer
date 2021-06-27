@@ -4,7 +4,8 @@ import React from "react";
 import { useCart } from "../../hooks/useCart";
 
 export function OrderMenu() {
-  const { NameToA, NameToZ } = useCart();
+  const { NameToA, NameToZ, PriceHigher, PriceLower, ScoreHigher, ScoreLower } =
+    useCart();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -34,12 +35,54 @@ export function OrderMenu() {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={NameToZ}>Ordem Alfabética (A-Z)</MenuItem>
-        <MenuItem onClick={NameToA}>Ordem Alfabética (Z-A)</MenuItem>
-        <MenuItem onClick={handleClose}>Preço (Maior)</MenuItem>
-        <MenuItem onClick={handleClose}>Preço (Menor)</MenuItem>
-        <MenuItem onClick={handleClose}>Pontuação (Maior)</MenuItem>
-        <MenuItem onClick={handleClose}>Pontuação (Menor)</MenuItem>
+        <MenuItem
+          onClick={() => {
+            NameToZ();
+            handleClose();
+          }}
+        >
+          Ordem Alfabética (A-Z)
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            NameToA();
+            handleClose();
+          }}
+        >
+          Ordem Alfabética (Z-A)
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            PriceHigher();
+            handleClose();
+          }}
+        >
+          Preço (Maior - Menor)
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            PriceLower();
+            handleClose();
+          }}
+        >
+          Preço (Menor - Maior)
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            ScoreHigher();
+            handleClose();
+          }}
+        >
+          Pontuação (Maior - Menor)
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            ScoreLower();
+            handleClose();
+          }}
+        >
+          Pontuação (Menor - Maior)
+        </MenuItem>
       </Menu>
     </>
   );

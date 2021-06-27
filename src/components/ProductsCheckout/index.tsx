@@ -1,45 +1,46 @@
 import { Button, Card } from "@material-ui/core";
-import GameData from "../../products.json";
 
-import { ProductContainer, Title, CartProduct, HeaderItem } from "./styles";
+import {
+  HeaderItem,
+  CheckoutContainer,
+  ItemsContainer,
+  InfoProduct,
+} from "./styles";
 
-import Grid from "@material-ui/core/Grid";
 import { useCart } from "../../hooks/useCart";
 import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from "@material-ui/core/Badge";
-import { useEffect } from "react";
 
-export function Products() {
-  const { addItem, removeItem, allItems, setAllItems } = useCart();
+export function ProductsCheckout() {
+  const { addItem, removeItem, itemSelected } = useCart();
 
-  useEffect(() => {
-    setAllItems(GameData);
-  }, [setAllItems]);
+  const uniqueItens = itemSelected.filter(
+    (el, i, arr) => arr.indexOf(el) === i
+  );
 
   return (
     <>
-      {allItems.map((item, index) => {
-        return (
-          <Grid key={index} item xs={11} md={4} lg={3}>
+      <ItemsContainer>
+        {uniqueItens.map((item, index) => {
+          return (
             <Card>
-              <HeaderItem>
-                <h3># {item.id}</h3>
-                <Badge badgeContent={item.amount} color="primary">
-                  <ShoppingCartIcon />
-                </Badge>
-              </HeaderItem>
-              <ProductContainer>
-                <img src={`/assets/${item.image}`} alt={item.name} />
-                <Title>{item.name}</Title>
-                <h3>Pontuação: {item.score}</h3>
-                <CartProduct>
+              <CheckoutContainer>
+                <InfoProduct>
+                  <img src={`/assets/${item.image}`} alt={item.name} />
+                  <h4>{item.name}</h4>
+                </InfoProduct>
+                <HeaderItem>
                   <h3>{`R$ ${item.price.toLocaleString("PT")}`}</h3>
+                  <Badge badgeContent={item.amount} color="primary">
+                    <ShoppingCartIcon />
+                  </Badge>
                   <Button
                     disabled={item.amount < 1}
                     variant="contained"
                     onClick={() => removeItem(item)}
                     color="primary"
+                    size="small"
                   >
                     <DeleteSweepIcon />
                   </Button>
@@ -55,12 +56,12 @@ export function Products() {
                       alt="carrinho"
                     />
                   </Button>
-                </CartProduct>
-              </ProductContainer>
+                </HeaderItem>
+              </CheckoutContainer>
             </Card>
-          </Grid>
-        );
-      })}
+          );
+        })}
+      </ItemsContainer>
     </>
   );
 }

@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useCart } from "../../hooks/useCart";
 
 import { CartContainer, ButtonContainer } from "./styles";
+import { ProductsCheckout } from "../../components/ProductsCheckout";
 
 export function CartCheckout(): JSX.Element {
   const { cartOpen, setCartOpen, price, shipping } = useCart();
@@ -33,6 +34,9 @@ export function CartCheckout(): JSX.Element {
             {totalPrice > 0 &&
               `Valor total: R$ ${totalPrice.toLocaleString("pt")}`}
           </h2>
+
+          <ProductsCheckout />
+
           <ButtonContainer>
             <Button
               color="primary"

@@ -3,8 +3,7 @@ import styled from "styled-components";
 export const CartContainer = styled("div")`
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  width: 75vw;
+  width: 95vw;
   height: 100%;
   background: #0077b6;
   color: #a4161a;

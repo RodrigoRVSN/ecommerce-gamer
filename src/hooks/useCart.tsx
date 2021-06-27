@@ -11,13 +11,15 @@ interface CartProviderProps {
 }
 
 export function CartContextProvider({ children }: CartProviderProps) {
-  const items = GameData;
-
   const [cartOpen, setCartOpen] = useState<boolean>(false);
-  const [itemSelected, setItemSelected] = useState<CartItemType[]>([]);
+  const [itemSelected] = useState<CartItemType[]>([]);
   const [price, setPrice] = useState(0);
   const [shipping, setShipping] = useState(0);
   const [allItems, setAllItems] = useState<CartItemType[]>([]);
+
+  /* Funções para ordenar os elementos na página */
+
+  /* Ordenação por nome */
 
   function NameToA() {
     const newItems = [...GameData].sort(function (a, b) {
@@ -41,43 +43,58 @@ export function CartContextProvider({ children }: CartProviderProps) {
     setAllItems(newItems);
   }
 
-  /*
-  items.sort(function (a, b) {
-    if (a.price < b.price) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
+  /* Ordena por preço */
 
-  items.sort(function (a, b) {
-    if (a.price < b.price) {
-      return -1;
-    } else {
-      return 1;
-    }
-  });
-  
-  items.sort(function (a, b) {
-    if (a.score < b.score) {
-      return -1;
-    } else {
-      return 1;
-    }
-  });
+  function PriceHigher() {
+    const newItems = [...GameData].sort(function (a, b) {
+      if (a.price > b.price) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    setAllItems(newItems);
+  }
 
-  items.sort(function (a, b) {
-    if (a.score < b.score) {
-      return 1;
-    } else {
-      return -1;
-    }
-  });
-  
-  */
+  function PriceLower() {
+    const newItems = [...GameData].sort(function (a, b) {
+      if (a.price < b.price) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    setAllItems(newItems);
+  }
+
+  /* Ordena por pontuação */
+
+  function ScoreHigher() {
+    const newItems = [...GameData].sort(function (a, b) {
+      if (a.score > b.score) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    setAllItems(newItems);
+  }
+
+  function ScoreLower() {
+    const newItems = [...GameData].sort(function (a, b) {
+      if (a.score < b.score) {
+        return -1;
+      } else {
+        return 1;
+      }
+    });
+    setAllItems(newItems);
+  }
+
+  /* Função de adicionar items */
 
   function addItem(productClicked: any) {
-    items.map((item, index) => {
+    allItems.map((item, index) => {
       if (item === productClicked) {
         item.amount += 1;
         return item;
@@ -91,22 +108,29 @@ export function CartContextProvider({ children }: CartProviderProps) {
     setShipping(shipping + 10);
   }
 
+  /* Função de Remover items */
+
   function removeItem(productClicked: any) {
-    itemSelected.forEach(function (primeiro: any, id: any) {
-      setPrice(Number(price) - parseFloat(primeiro?.price));
+    itemSelected.forEach(function (array: any, id: any) {
+      if (productClicked === array) {
+        setPrice(Number(price) - parseFloat(array?.price));
+      }
     });
+
     setShipping(shipping - 10);
 
     let index = itemSelected.indexOf(productClicked);
     itemSelected.splice(index, 1);
 
-    items.map((item) => {
+    allItems.map((item) => {
       if (item === productClicked) {
         item.amount -= 1;
         return item;
       }
     });
   }
+
+  /* Condicionais simples */
 
   useEffect(() => {
     if (price > 250) {
@@ -120,28 +144,35 @@ export function CartContextProvider({ children }: CartProviderProps) {
     }
   }, [shipping, price]);
 
+  /* Retorno do contexto */
+
   return (
     <CartContext.Provider
       value={{
         cartOpen,
         setCartOpen,
-        items,
         addItem,
         removeItem,
         itemSelected,
         shipping,
         price,
         setPrice,
-        NameToA,
-        NameToZ,
         allItems,
         setAllItems,
+        NameToA,
+        NameToZ,
+        PriceHigher,
+        PriceLower,
+        ScoreHigher,
+        ScoreLower,
       }}
     >
       {children}
     </CartContext.Provider>
   );
 }
+
+/* Hook do use cart */
 
 export const useCart = () => {
   return useContext(CartContext);
