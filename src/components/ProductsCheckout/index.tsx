@@ -15,14 +15,14 @@ import Badge from "@material-ui/core/Badge";
 export function ProductsCheckout() {
   const { addItem, removeItem, itemSelected } = useCart();
 
-  const uniqueItens = itemSelected.filter(
+  const uniqueItens = itemSelected?.filter(
     (el, i, arr) => arr.indexOf(el) === i
   );
 
   return (
     <>
       <ItemsContainer>
-        {uniqueItens.map((item, index) => {
+        {uniqueItens?.map((item, index) => {
           return (
             <Card>
               <CheckoutContainer>

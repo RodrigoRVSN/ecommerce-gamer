@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Home /> should render the home page 1`] = `
+<div>
+  <div
+    class="MuiContainer-root MuiContainer-maxWidthLg"
+  >
+    <button
+      aria-controls="simple-menu"
+      aria-haspopup="true"
+      class="MuiButtonBase-root MuiButton-root MuiButton-contained MuiButton-containedPrimary MuiButton-containedSizeLarge MuiButton-sizeLarge"
+      tabindex="0"
+      type="button"
+    >
+      <span
+        class="MuiButton-label"
+      >
+        <img
+          alt="filtro"
+          src="/assets/arrow-down-icon.svg"
+        />
+      </span>
+      <span
+        class="MuiTouchRipple-root"
+      />
+    </button>
+    <div
+      class="MuiGrid-root MuiGrid-container MuiGrid-spacing-xs-4"
+      style="align-items: center; justify-content: center; text-align: center;"
+    />
+  </div>
+</div>
+`;

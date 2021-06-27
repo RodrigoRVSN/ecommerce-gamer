@@ -144,6 +144,10 @@ export function CartContextProvider({ children }: CartProviderProps) {
     }
   }, [shipping, price]);
 
+  useEffect(() => {
+    setAllItems(GameData);
+  }, [setAllItems]);
+
   /* Retorno do contexto */
 
   return (

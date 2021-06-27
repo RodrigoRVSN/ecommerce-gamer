@@ -1,5 +1,4 @@
 import { Button, Card } from "@material-ui/core";
-import GameData from "../../products.json";
 
 import { ProductContainer, Title, CartProduct, HeaderItem } from "./styles";
 
@@ -8,18 +7,13 @@ import { useCart } from "../../hooks/useCart";
 import DeleteSweepIcon from "@material-ui/icons/DeleteSweep";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import Badge from "@material-ui/core/Badge";
-import { useEffect } from "react";
 
 export function Products() {
-  const { addItem, removeItem, allItems, setAllItems } = useCart();
-
-  useEffect(() => {
-    setAllItems(GameData);
-  }, [setAllItems]);
+  const { addItem, removeItem, allItems } = useCart();
 
   return (
     <>
-      {allItems.map((item, index) => {
+      {allItems?.map((item, index) => {
         return (
           <Grid key={index} item xs={11} md={4} lg={3}>
             <Card>
