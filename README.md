@@ -1,4 +1,35 @@
-# Getting Started with Create React App
+![image](https://user-images.githubusercontent.com/75763403/123675480-261aba80-d819-11eb-8e31-93160e14d095.png)
+
+---
+
+![image](https://user-images.githubusercontent.com/75763403/123675515-32067c80-d819-11eb-93f3-d93d5ce054b3.png)
+
+---
+
+# 💻 Projeto
+
+##### Neste projeto, é consumido um arquivo json local com produtos de um e-commerce gamer que, com o uso de hooks, é feito um checkout dos itens, com a possibilidade de remover e adicionar itens ao carrinho.
+Disponível em: https://ecommerce-gamer-rodrigorvsn.vercel.app/
+
+---
+
+# 🛠 Technologies (Tecnologias)
+
+- React Framework (TS)
+- Material UI
+
+---
+
+# 📚 O que aprendi 😎
+
+- Drawer do material UI (checkout)
+- Manipular quantidade de itens
+- Hooks
+- Manipular arquivo json local
+
+---
+
+# 🚀 Dependências
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
