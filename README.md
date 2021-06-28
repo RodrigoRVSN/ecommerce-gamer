@@ -26,6 +26,7 @@ Disponível em: https://ecommerce-gamer-rodrigorvsn.vercel.app/
 - Manipular quantidade de itens
 - Hooks
 - Manipular arquivo json local
+- Ordernar itens com sort
 
 ---
 
